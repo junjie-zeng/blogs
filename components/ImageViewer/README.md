@@ -1,12 +1,14 @@
 # H5图片查看器
+
 ### 场景
 最近需求涉及到图片查看的操作，UI设计了一张图片查看的图，要求点击查看图片并支持左右滑动，由于antd-mobile v2版本没有类似组件，所以通过套娃的方式套一个。
             套娃结果：UI还是挺满意😂😂。
 
-[体验地址](https://codesandbox.io/s/tu-pian-cha-kan-qi-1jfw8)
+[Codesandbox 体验地址](https://codesandbox.io/s/tu-pian-cha-kan-qi-1jfw8)
 
 ### 依赖
 antd-mobile@2.3.4
+
 ## 预览图
 ![展示](https://user-images.githubusercontent.com/46043577/148675928-67bfe504-ac70-4e3b-a7a5-545fa38522f3.jpg)
 
@@ -62,7 +64,7 @@ const demoImages = [
 |  onClose|关闭触发  |(false) => void|-|
 
 ### 总结
-功能算是实现了，整个组件封装的过程也是对知识点的回顾
+
 - 管理组件状态 useState
 - 执行副作用 useEffect
 - 负责缓存优化 useMemo
