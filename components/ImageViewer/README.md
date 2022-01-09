@@ -3,7 +3,7 @@
 最近需求涉及到图片查看的操作，UI设计了一张图片查看的图，要求点击查看图片并支持左右滑动，由于antd-mobile v2版本没有类似组件，所以通过套娃的方式套一个。
             套娃结果：UI还是挺满意😂😂。
 
-[查看地址](https://www.csdn.net/)
+[体验地址](https://codesandbox.io/s/tu-pian-cha-kan-qi-1jfw8)
 
 ### 依赖
 antd-mobile@2.3.4
