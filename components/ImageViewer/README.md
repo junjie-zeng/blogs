@@ -8,7 +8,7 @@
 ### 依赖
 antd-mobile@2.3.4
 ## 预览图
-![在这里插入图片描述](https://img-blog.csdnimg.cn/9c06b7deac664c73adca0f074376dad8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5ZCD57OW55qE5LmU5be0,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center =375x667)
+![展示](https://user-images.githubusercontent.com/46043577/148675928-67bfe504-ac70-4e3b-a7a5-545fa38522f3.jpg)
 
 
 ### 套娃流程
