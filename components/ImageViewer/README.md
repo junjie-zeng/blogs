@@ -14,10 +14,10 @@ antd-mobile@2.3.4
 
 
 ### 套娃流程
- - 首先通过 Modal 来实现查看的遮罩 
- - 接着在 Modal 里面套一个 Carousel 用来显示图片
- - 最后在 Carousel 中布局，实现交互效果
- - 注：需要修改组件本身的css
+ - 首先通过 Modal 用来实现查看的遮罩 
+ - 接着在 Modal 中套一个 Carousel 用来显示图片
+ - 最后在 Carousel 中布局并实现交互效果
+ - 注：需修改组件本身的css
 	
 ### 使用
  1. 数据源
@@ -39,15 +39,14 @@ const demoImages = [
 ];
 ```
 
- 2. 组件
+2. 组件
   ```javascript
 	<ImageViewer
         visible={boolean}
         selectedIndex={1}
         images={demoImages}
-        onClose={() => {
-         
-        }}
+        onIndexChange={(index)=>{}}
+        onClose={(bool) => {}}
       />
 ```
 
@@ -62,13 +61,14 @@ const demoImages = [
 |  visible|是否显示  |boolean|false|
 |  selectedIndex|默认显示第几张图片  |number|0|
 |  onClose|关闭触发  |(false) => void|-|
+|  onIndexChange|切换图片时触发  |(index: number) => void|-|
 
 ### 总结
 
 - 管理组件状态 useState
 - 执行副作用 useEffect
-- 负责缓存优化 useMemo
-
+- 缓存优化 useMemo
+- 数据容器 useRef
 
 
 
