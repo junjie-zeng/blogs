@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parse Table</title>
+  </head>
+  <body>
+    <h1>从excel中复制文本、粘贴至该输入框</h1>
+    <input id="parser" type="text" />
+    <script>
+      document.getElementById("parser").addEventListener("paste", (event) => {
+        const pasteData = (event.clipboardData || window.clipboardData).getData(
+          "text/html"
+        );
+        const result = parseTable(pasteData);
+        console.log(result);
+        event.preventDefault();
+        event.stopPropagation();
+      });
+
+      /**
+       * 处理表格中的单元格，将具有 colspan 和 rowspan 属性的单元格拆分为多个单元格。
+       */
+      function parseTable(htmlString) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
+        const table = doc.querySelector("table");
+        const rows = Array.from(table.rows);
+
+        // 计算最大列数
+        const maxCols = rows.reduce(
+          (max, row) =>
+            Math.max(
+              max,
+              [...row.cells].reduce((sum, cell) => sum + cell.colSpan, 0)
+            ),
+          0
+        );
+
+        // 初始化
+        const cellMatrix = Array.from({ length: rows.length }, () =>
+          Array(maxCols).fill("")
+        );
+
+        // 填充
+        rows.forEach((row, rowIndex) => {
+          let colIndex = 0;
+          [...row.cells].forEach((cell) => {
+            while (cellMatrix[rowIndex][colIndex]) {
+              colIndex++;
+            }
+            for (let i = 0; i < cell.rowSpan; i++) {
+              for (let j = 0; j < cell.colSpan; j++) {
+                cellMatrix[rowIndex + i][colIndex + j] = cell.textContent;
+              }
+            }
+            colIndex += cell.colSpan;
+          });
+        });
+        return cellMatrix;
+      }
+    </script>
+  </body>
+</html>
