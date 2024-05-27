@@ -1,6 +1,4 @@
-# buildUp
-铁杵成针般的折腾
-
+### Js
 
 ### Vue
 - [Vue海报编辑器](https://github.com/junjie-zeng/poster-editor)
