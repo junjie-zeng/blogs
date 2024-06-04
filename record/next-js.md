@@ -19,7 +19,7 @@
 ### 1. 什么是 Next.js？
    <img src="https://raw.githubusercontent.com/junjie-zeng/blogs/master/assets/images/next-ssr.png" />
 
-    Next.js 是一个基于 React 的框架，由 Vercel 开发和维护。它用于构建 Web 应用程序，特别是支持服务器端渲染（SSR）和静态网站生成（SSG）。  
+   Next.js 是一个基于 React 的框架，用于构建高性能的 Web 应用。它提供了服务器端渲染（SSR）、静态生成（SSG）和其他现代 Web 开发所需的功能。  
 
 ### 2. Next.js的优势 ， 解决了什么问题
   ## 服务器端渲染（SSR）
@@ -31,7 +31,7 @@
     问题：需要在构建时预先生成静态 HTML 文件。
     Next.js 解决方案：内置静态生成功能，可以在构建时预先生成 HTML 页面。
 
-  ## 路由配置
+  ## 文件系统路由
     问题：在传统 Vue、React 应用中，开发者需要手动配置路由（每开发一个页面需要配置一次路由）。
     Next.js 解决方案：使用基于文件系统的路由，每个页面文件自动对应一个 URL 路由，简化了路由配置和管理，能直观的体现这个url的结构。
 
@@ -49,71 +49,98 @@
 
 ### 2. 创建第一个 Next.js 应用
 
-#### 安装 Next.js
+使用官方命令创建新项目：
 
 ```bash
-npx create-next-app my-next-app
+npx create-next-app@latest my-next-app
 cd my-next-app
 npm run dev
 ```
 
-#### 创建页面
+这样，我们就有了一个基础的 Next.js 应用，可以在 `http://localhost:3000` 上访问。
 
-在 `pages/` 目录下创建 `about.js`：
+### 4. 项目结构介绍
 
-```jsx
-// pages/about.js
-import React from 'react';
-
-const About = () => (
-  <div>
-    <h1>About Page</h1>
-    <p>This is the about page.</p>
-  </div>
-);
-
-export default About;
-```
-
-访问 `http://localhost:3000/about` 可以看到新页面。
-
-### 3. 项目结构介绍
-
-一个典型的 Next.js 项目结构如下：
+创建的 Next.js 项目包含以下目录和文件：
 
 ```
 my-next-app/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── about/
+│   │   └── page.tsx
 ├── pages/
-│   ├── index.js
-│   ├── about.js
-│   ├── _app.js
-│   └── api/
-│       └── hello.js
+│   ├── api/
+│   │   └── hello.ts
 ├── public/
-│   └── images/
 ├── styles/
-│   ├── globals.css
-│   └── Home.module.css
+├── .gitignore
+├── next.config.js
 ├── package.json
-└── next.config.js
 ```
 
-- `pages/`：页面组件，每个文件对应一个路由。
-- `public/`：静态资源目录。
-- `styles/`：全局和模块化 CSS 文件。
+- **app/**：存放应用的页面和组件，基于文件系统自动生成路由。
+- **pages/api/**：用于创建 API 路由。
+- **public/**：存放静态资源，如图片、字体等。
+- **styles/**：存放样式文件。
+- **next.config.js**：Next.js 配置文件。
+- **package.json**：项目依赖和脚本。
 
+### 5. 路由与导航
 
+Next.js 使用文件系统路由。`app` 目录中的每个文件和文件夹都对应一个路由。
 
-### 4. 路由与导航
+#### 基本用法
 
-#### 基本路由
+在 `app` 目录中创建文件和文件夹来定义路由：
 
-文件系统路由，`pages/index.js` 对应 `/`，`pages/about.js` 对应 `/about`。
+文件系统路由，`app/page.tsx` 对应 `/`，`app/about/page.tsx` 对应 `/about`。
+
+```bash
+mkdir app
+cd app
+touch page.tsx about/page.tsx
+```
+
+#### app/page.tsx
+
+```tsx
+import React from 'react';
+
+const HomePage = () => {
+  return (
+    <div>
+      <h1>Welcome to Next.js!</h1>
+      <p>This is the home page.</p>
+    </div>
+  );
+};
+
+export default HomePage;
+```
+
+#### app/about/page.tsx
+
+```tsx
+import React from 'react';
+
+const AboutPage = () => {
+  return (
+    <div>
+      <h1>About Us</h1>
+      <p>This is the about page.</p>
+    </div>
+  );
+};
+
+export default AboutPage;
+```
 
 #### 动态路由
 
-```jsx
-// pages/user/[id].js
+#### app/user/[id].tsx
+```tsx
 import { useRouter } from 'next/router';
 
 const User = () => {
@@ -129,136 +156,109 @@ const User = () => {
 
 export default User;
 ```
-
 访问 `http://localhost:3000/user/123`，显示 `User ID: 123`。
 
-#### 链接导航
+#### 导航
 
-```jsx
-// pages/index.js
+使用 `Link` 组件进行导航：
+
+```tsx
 import Link from 'next/link';
 
-const Home = () => (
-  <div>
-    <h1>Home Page</h1>
-    <Link href="/about">
-      <a>Go to About Page</a>
-    </Link>
-  </div>
-);
+const Navigation = () => {
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+        <li>
+          <Link href="/about">About</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
 
-export default Home;
+export default Navigation;
 ```
 
-### 5. 数据获取（SSR 和 SSG）
+### 6. 数据获取（SSR 和 SSG）
 
-#### 静态生成（SSG）
+Next.js 提供了多种数据获取方法，包括 SSR 和 SSG。
 
-```jsx
-// pages/posts/[id].js
-export async function getStaticPaths() {
-  const paths = [{ params: { id: '1' } }, { params: { id: '2' } }];
-  return { paths, fallback: false };
-}
+#### 使用 `getServerSideProps` 进行 SSR
 
-export async function getStaticProps({ params }) {
-  const post = { id: params.id, title: `Post ${params.id}` };
-  return { props: { post } };
-}
+```tsx
+import React from 'react';
 
-const Post = ({ post }) => (
-  <div>
-    <h1>{post.title}</h1>
-    <p>This is post {post.id}</p>
-  </div>
-);
-
-export default Post;
-```
-
-#### 服务端渲染（SSR）
-
-```jsx
-// pages/profile.js
 export async function getServerSideProps() {
-  const res = await fetch('https://api.example.com/profile');
-  const profile = await res.json();
-  return { props: { profile } };
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+
+  return {
+    props: { data },
+  };
 }
 
-const Profile = ({ profile }) => (
-  <div>
-    <h1>{profile.name}</h1>
-    <p>{profile.bio}</p>
-  </div>
-);
+const SSRPage = ({ data }) => {
+  return (
+    <div>
+      <h1>Server Side Rendered Page</h1>
+      <p>Data: {JSON.stringify(data)}</p>
+    </div>
+  );
+};
 
-export default Profile;
+export default SSRPage;
 ```
 
-### 6. API 路由
+#### 使用 `getStaticProps` 进行 SSG
 
-在 `pages/api` 目录下创建 API 路由：
+```tsx
+import React from 'react';
 
-```jsx
-// pages/api/hello.js
+export async function getStaticProps() {
+  const response = await fetch('https://api.example.com/data');
+  const data = await response.json();
+
+  return {
+    props: { data },
+    revalidate: 10, // 页面重新生成的时间间隔（秒）
+  };
+}
+
+const SSGPage = ({ data }) => {
+  return (
+    <div>
+      <h1>Static Generated Page</h1>
+      <p>Data: {JSON.stringify(data)}</p>
+    </div>
+  );
+};
+
+export default SSGPage;
+```
+
+### 7. API 路由
+
+Next.js 内置了 API 路由，可以轻松创建 API 端点。
+
+#### 创建 API 路由
+
+在 `pages/api` 目录下创建 API 端点：
+
+#### pages/api/hello.ts
+
+```ts
 export default function handler(req, res) {
   res.status(200).json({ message: 'Hello, world!' });
 }
 ```
 
-访问 `http://localhost:3000/api/hello`，返回 `{"message":"Hello, world!"}`。
+访问 `http://localhost:3000/api/hello`，可以看到返回的 JSON 数据。
 
-### 7. 样式与 CSS
 
-#### 使用全局 CSS
-
-在 `styles/globals.css` 中定义全局样式：
-
-```css
-/* styles/globals.css */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-```
-
-在 `pages/_app.js` 中引入：
-
-```jsx
-// pages/_app.js
-import '../styles/globals.css';
-
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
-}
-
-export default MyApp;
-```
-
-#### 使用 CSS 模块
-
-```jsx
-// styles/Home.module.css
-.container {
-  margin: 0 auto;
-  padding: 2rem;
-  max-width: 800px;
-  text-align: center;
-}
-
-// pages/index.js
-import styles from '../styles/Home.module.css';
-
-const Home = () => (
-  <div className={styles.container}>
-    <h1>Home Page</h1>
-  </div>
-);
-
-export default Home;
-```
 
 #### 总结
 
@@ -267,7 +267,6 @@ export default Home;
 3. **路由和导航**：使用文件系统路由和动态路由，掌握 Link 组件的使用。
 4. **数据获取**：了解静态生成（SSG）和服务端渲染（SSR）的基本用法。
 5. **API 路由**：在 Next.js 中创建和使用 API 路由。
-6. **样式处理**：使用全局 CSS 和 CSS 模块进行样式管理。
 
 
 
