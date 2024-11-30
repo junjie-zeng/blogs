@@ -15,6 +15,9 @@
 - [手风琴菜单](https://www.jq22.com/yanshi22293)
 - [下拉框模糊查询](https://www.jq22.com/yanshi22171)
 
+### 其它
+- [chokidar模拟热更新](https://github.com/junjie-zeng/Vite/tree/master/chokidar)
+
 
 
 
